@@ -1,0 +1,1081 @@
+﻿
+//linkedq
+import java.util.*;
+
+class node
+{
+   int data;
+   node link;
+    public node()
+    {
+        link = null;
+        data = 0;
+    }    
+    public node(int d)
+    {
+        data = d;
+    }    
+    public void setdata(int d)
+    {
+        data = d;
+    }    
+    public int getdata()
+    {
+        return data;
+    }
+}
+ 
+class linkq
+{
+   node front,rear;
+     int size;
+    public linkq()
+    {
+        front = null;
+        rear = null;
+        size = 0;
+    }    
+    public int isempty()
+    {
+        if(front == null)
+	System.out.print("\nqueue is empty");
+	else
+	System.out.print("\nqueue is not empt");
+	return 0;
+    }    
+    public int getsize()
+    {
+        return size;
+    }    
+       public void insert(int data)
+    {
+        node nptr = new node(data);
+        if (rear == null)
+        {
+            front = nptr;
+            rear = nptr;
+        }
+        else
+        {
+            rear.link=nptr;
+            rear = rear.link;
+        }
+        size++ ;
+    }    
+   
+    public int remove()
+    {
+        if (front==null )
+         
+   System.out.print("\nUnderflow ");
+	else
+	{
+        node ptr = front;
+        front = ptr.link;        
+        if (front == null)
+            rear = null;
+	}
+        size-- ;        
+        return 0;
+    }    
+    
+    public int peek()
+    {
+        if (front==null )
+            System.out.print("\nUnderflow Exception");
+        return (front.getdata());
+    }    
+   
+    public void display()
+    {
+        System.out.print("\nQueue = ");
+        if (size == 0)
+        {
+            System.out.print("Empty\n");
+            return ;
+        }
+        node ptr = front;
+        while (ptr != rear.link)
+        {
+            System.out.print(ptr.getdata()+" ");
+            ptr = ptr.link;
+        }
+        System.out.println();        
+    }
+}
+ 
+public class linkedqueue
+{    
+    public static void main(String args[])
+    {
+        Scanner s = new Scanner(System.in); 
+        linkq lq = new linkq();            
+        System.out.println("Linked Queue Test\n"); 
+        char ch;        
+        do
+        {
+         System.out.println("\nQueue Operations");
+         System.out.println("1. insert");
+         System.out.println("2. remove");
+         System.out.println("3. check empty");
+         System.out.println("4. size");
+         int choice = s.nextInt();
+         switch (choice)
+          {
+            case 1 : 
+                System.out.println("Enter integer element to insert");
+                lq.insert( s.nextInt() );
+                b.insert( s.nextInt() );                       
+            case 2 : 
+                 System.out.println( lq.remove());
+		System.out.println(" Element removed");
+                 break;                       
+           case 3 : 
+                System.out.println("Empty status = "+ lq.isempty());
+                break;                         
+            case 4 : 
+               System.out.println("Size = "+ lq.getsize());
+                break;  
+ 
+            default : 
+                System.out.println("Wrong Entry \n ");
+                break;
+            }                
+                  
+            lq.display();
+ 
+            System.out.println("\nDo you want to continue (Type y or n) \n");
+            ch = s.next().charAt(0);            
+        } while (ch == 'Y'|| ch == 'y');                                                          
+    } 
+}
+
+
+
+
+
+
+
+
+
+
+//BFS
+import java.util.*;
+import java.io.*;
+class Queue
+{
+ final int size = 20;
+ int[] quearray;
+ int front;
+ int rear;
+
+ Queue()
+{
+quearray = new int[size];
+front = 0;
+rear = -1;
+}
+ void insert(int j) 
+{
+if(rear == size-1)
+rear = -1;
+quearray[++rear] = j;
+}
+
+ int remove()
+
+{
+int temp = quearray[front++];
+if(front == size)
+front = 0;
+return temp;
+
+}
+
+ boolean isempty() 
+{
+return ( rear+1==front || (front+size-1==rear) );
+}
+
+} 
+
+class Vertex
+{
+ char label;
+ boolean wasVisited;
+ Vertex(char lab)
+{
+label = lab;
+wasVisited = false;
+}
+}
+class Graph
+{
+ final int MAX_VERTS = 20;
+ Vertex vertexList[]; 
+ int adjMat[][];
+
+ int nVerts;
+
+ Queue theQueue;
+
+Graph()
+
+{
+vertexList = new Vertex[MAX_VERTS];
+
+adjMat = new int[MAX_VERTS][MAX_VERTS];
+nVerts = 0;
+for(int j=0; j<MAX_VERTS; j++)
+
+for(int k=0; k<MAX_VERTS; k++)
+
+
+adjMat[j][k] = 0;
+theQueue = new Queue();
+}
+
+public void addVertex(char lab)
+{
+vertexList[nVerts++] = new Vertex(lab);
+}
+
+ void addEdge(int start, int end)
+{
+adjMat[start][end] = 1;
+adjMat[end][start] = 1;
+}
+
+public void displayVertex(int v)
+{
+System.out.print(vertexList[v].label);
+}
+
+public void bfs()
+
+{
+
+vertexList[0].wasVisited = true;
+displayVertex(0);
+
+theQueue.insert(0);
+
+int v2;
+while( !theQueue.isempty() )
+
+{
+int v1 = theQueue.remove();
+
+while( (v2=getAdjUnvisitedVertex(v1)) != -1 )
+{
+
+vertexList[v2].wasVisited = true; 
+displayVertex(v2);
+
+theQueue.insert(v2);
+
+}
+
+} 
+for(int j=0; j<nVerts; j++)
+
+vertexList[j].wasVisited = false;
+}
+public int getAdjUnvisitedVertex(int v)
+{
+for(int j=0; j<nVerts; j++)
+if(adjMat[v][j]==1 && vertexList[j].wasVisited==false)
+return j;
+return -1;
+}
+} 
+class breadthfirstsearch
+{
+public static void main(String args[])
+{
+Graph theGraph = new Graph();
+theGraph.addVertex('A');
+
+theGraph.addVertex('B');
+
+theGraph.addVertex('C');
+
+theGraph.addVertex('D');
+
+theGraph.addVertex('E');
+
+theGraph.addEdge(0,1);
+theGraph.addEdge(1,2);
+theGraph.addEdge(0,3);
+theGraph.addEdge(3,4);
+
+System.out.print("Visits: ");
+theGraph.bfs();
+
+System.out.println();
+}
+}
+
+
+
+
+
+
+
+
+
+
+//DFS
+
+
+import java.util.*;
+class Stack
+{
+   int size = 20;
+   int[] st;
+   int top;
+   public Stack()           
+   {
+      st = new int[size];    
+      top = -1;
+   }
+   public void push(int j)   
+   { st[++top] = j; }
+   public int pop()          
+   { return st[top--]; }
+   public int peek()      
+   { return st[top]; }
+   public boolean isEmpty()  
+   { return (top == -1); }
+}
+
+class Vertex
+{
+   char label;       
+   boolean wasVisited;
+   public Vertex(char lab)   
+   {
+      label = lab;
+      wasVisited = false;
+   }
+} 
+
+class Graph
+{
+   int limit = 20;
+   Vertex vertexList[]; 
+   int adjMat[][];      
+   int nVerts;          
+   Stack theStack;
+   public Graph()              
+   {
+      vertexList = new Vertex[limit];
+      adjMat = new int[limit][limit];
+      nVerts = 0;
+      for(int y=0; y<limit; y++)    
+         for(int x=0; x<limit; x++)  
+            adjMat[x][y] = 0;
+      theStack = new Stack();
+    }  
+   public void addVertex(char lab)
+   {
+      vertexList[nVerts++] = new Vertex(lab);
+   }
+   public void addEdge(int start, int end)
+   {
+      adjMat[start][end] = 1;
+      adjMat[end][start] = 1;
+   }
+   public void displayVertex(int v)
+   {
+      System.out.print(vertexList[v].label);
+   }
+   public void Dfs()  
+   {                               
+      vertexList[0].wasVisited = true;  
+      displayVertex(0);                
+      theStack.push(0);                 
+      while( !theStack.isEmpty() )  
+      {
+         int v = getAdjUnvisitedVertex( theStack.peek() );
+         if(v == -1)                  
+            theStack.pop();
+         else                         
+         {
+            vertexList[v].wasVisited = true;  
+            displayVertex(v);                
+            theStack.push(v);               
+         }
+       }
+      for(int j=0; j<nVerts; j++)         
+         vertexList[j].wasVisited = false;
+   }  
+   public int getAdjUnvisitedVertex(int v)
+  {
+      for(int j=0; j<nVerts; j++)
+         if(adjMat[v][j]==1 && vertexList[j].wasVisited==false)
+            return j;
+      return -1;
+  } 
+}  
+
+class dfss
+{
+   public static void main(String[] args)
+   {
+      Graph theGraph = new Graph();
+      Scanner S= new Scanner(System.in);
+     /* int c,n=0;;
+      while(c!=0)
+      {
+       System.out.println("ENTER THE VERTEX:");
+       char ch=S.nextLine();
+       theGraph.addVertex('ch');
+       System.out.println("Do u want to enter more:");
+       c=S.nextInt();
+       n++;
+      }*/
+      theGraph.addVertex('A');    // 0  (start for dfs)
+      theGraph.addVertex('B');    // 1
+      theGraph.addVertex('C');    // 2
+      theGraph.addVertex('D');    // 3
+      theGraph.addVertex('E');    // 4
+
+      theGraph.addEdge(0, 1);     // AB
+      theGraph.addEdge(1, 2);     // BC
+      theGraph.addEdge(0, 3);     // AD
+      theGraph.addEdge(3, 4);     // DE
+      theGraph.addEdge(4, 2);
+      theGraph.addEdge(3, 1);
+      System.out.print("Visits: ");
+      theGraph.Dfs();             // depth-first search
+      System.out.println();
+   }  
+} 
+
+
+
+
+
+BST
+
+ import java.util.*;
+ class BSTNode
+ {
+    BSTNode left, right;
+     int data;
+    BSTNode()
+     {
+         left = null;
+         right = null;
+         data = 0;
+     }
+     BSTNode(int n)
+     {
+         left = null;
+         right = null;
+         data = n;
+     }
+   void  setLeft(BSTNode n)
+     {
+         left = n;
+     }
+      void setRight(BSTNode n)
+     {
+         right = n;
+     }
+      BSTNode getLeft()
+     {
+         return left;
+     }
+     BSTNode getRight()
+     {
+         return right;
+     }
+    void setData(int d)
+     {
+         data = d;
+     }
+   int getData()
+     {
+         return data;
+     }     
+ }
+ class BST
+ {
+     BSTNode root;
+    BST()
+     {
+         root = null;
+     }
+     boolean isEmpty()
+     {
+         return root == null;
+     }
+    void insert(int data)
+     {
+         root = insert(root, data);
+     }
+     BSTNode insert(BSTNode node, int data)
+     {
+         if (node == null)
+             node = new BSTNode(data);
+         else
+         {
+             if (data <= node.getData())
+                 node.left = insert(node.left, data);
+             else
+                 node.right = insert(node.right, data);
+         }
+         return node;
+     }
+      void delete(int k)
+     {
+         if (isEmpty())
+             System.out.println("Tree Empty");
+         else if (search(k) == false)
+             System.out.println("Sorry "+ k +" is not present");
+         else
+         {
+             root = delete(root, k);
+             System.out.println(k+ " deleted from the tree");
+         }
+     }
+    BSTNode delete(BSTNode root, int k)
+     {
+         BSTNode p, p2, n;
+         if (root.getData() == k)
+         {
+             BSTNode lt, rt;
+             lt = root.getLeft();
+             rt = root.getRight();
+             if (lt == null && rt == null)
+		{
+		System.out.println("no children");
+                 return null;
+		}
+             else if (lt == null)
+             {
+		System.out.println("no left child");
+                 p = rt;
+                 return p;
+             }
+             else if (rt == null)
+             {
+		System.out.println("no right child");
+                 p = lt;
+                 return p;
+             }
+             else
+             {
+		System.out.println("both left and right child present");
+                 p2 = rt;
+                 p = rt;
+                 while (p.getLeft() != null)
+                     p = p.getLeft();
+                 p.setLeft(lt);
+                 return p2;
+             }
+         }
+         if (k < root.getData())
+         {
+             n = delete(root.getLeft(), k);
+             root.setLeft(n);
+         }
+         else
+         {
+             n = delete(root.getRight(), k);
+             root.setRight(n);             
+         }
+         return root;
+     }
+     int countNodes()
+     {
+         return countNodes(root);
+     }
+ int countNodes(BSTNode r)
+     {
+         if (r == null)
+             return 0;
+         else
+         {
+             int l = 1;
+             l += countNodes(r.getLeft());
+             l += countNodes(r.getRight());
+             return l;
+         }
+     }
+ boolean search(int val)
+     {
+         return search(root, val);
+     }
+      boolean search(BSTNode r, int val)
+     {
+         boolean found = false;
+         while ((r != null) && !found)
+         {
+             int rval = r.getData();
+             if (val < rval)
+                 r = r.getLeft();
+             else if (val > rval)
+                 r = r.getRight();
+             else
+             {
+                 found = true;
+                 break;
+             }
+             found = search(r, val);
+         }
+         return found;
+     }
+     void inorder()
+     {
+         inorder(root);
+     }
+      void inorder(BSTNode r)
+     {
+         if (r != null)
+         {
+             inorder(r.getLeft());
+             System.out.print(r.getData() +" ");
+             inorder(r.getRight());
+         }
+     }
+     void preorder()
+     {
+         preorder(root);
+     }
+         void preorder(BSTNode r)
+     {
+         if (r != null)
+         {
+             System.out.print(r.getData() +" ");
+             preorder(r.getLeft());             
+             preorder(r.getRight());
+         }
+     }
+    void postorder()
+     {
+         postorder(root);
+     }
+      void postorder(BSTNode r)
+     {
+         if (r != null)
+         {
+             postorder(r.getLeft());             
+             postorder(r.getRight());
+             System.out.print(r.getData() +" ");
+
+         }
+     }     
+ }
+ class BinarySearchs    
+ {
+     public static void main(String[] args)
+    {                 
+         Scanner in = new Scanner(System.in);
+         BST bst = new BST(); 
+         System.out.println("Binary Search Tree Test\n");          
+         char ch;
+         System.out.println("\nBinary Search Tree Operations\n");
+         System.out.println("1. insert element ");
+         System.out.println("2. delete element");
+         System.out.println("3. search element");
+         System.out.println("4. display in pre order");	
+	 System.out.println("5. display in post order");
+	 System.out.println("6. display in inorder");
+	 System.out.println("7. count nodes");
+	 System.out.println("8. exit");
+      while(true)  
+
+        {
+
+	    System.out.println("\nenter your choice");
+            int choice = in.nextInt();            
+            switch (choice)
+            {
+            case 1 : 
+                System.out.println("Enter integer element to insert");
+                bst.insert( in.nextInt() );                     
+                break;                          
+            case 2 : 
+                System.out.println("Enter integer element to delete");
+                bst.delete( in.nextInt() );                     
+                break;                         
+            case 3 : 
+                System.out.println("Enter integer element to search");
+                System.out.println("Search result : "+ bst.search( in.nextInt() ));
+                break;    
+	    case 4:
+		System.out.print("\nPost order : ");
+                bst.postorder();
+	        break;
+	    case 5:
+	         System.out.print("\nPre order : ");
+                 bst.preorder();
+		 break;
+	    case 6:
+                  System.out.print("\nIn order : ");
+                  bst.inorder();
+		  break;
+            case 7 :
+                System.out.println("Nodes = "+ bst.countNodes());
+                break;   
+	     case 8:
+		System.exit(0);
+            default : 
+                System.out.println("Wrong Entry \n ");
+                break;   
+            }
+        }               
+     }
+}
+
+
+
+
+
+
+
+
+//lINKEDSTACK
+
+
+import java.util.*;
+ 
+class node
+{
+     int data;
+     node link;
+    public node()
+    {
+        link = null;
+        data = 0;
+    } 
+    public node(int d)
+    {
+        data = d;
+        
+    }    
+   
+    public void setdata(int d)
+    {
+        data = d;
+    }    
+    
+    public int getdata()
+    {
+        return data;
+    }
+}
+ 
+
+class links
+{
+    node top ;
+    int size ;
+     public links()
+    {
+        top = null;
+        size = 0;
+    }    
+   public boolean isempty()
+    {
+        return top == null;
+    }    
+  
+    public int getsize()
+    {
+        return size;
+    }    
+   
+    public void push(int data)
+    {
+        node nptr = new node (data);
+        if (top == null)
+            top = nptr;
+        else
+        {
+            nptr.link=top;
+            top = nptr;
+        }
+        size++ ;
+    }    
+    
+    public int pop()
+    {
+        if (top == null)
+             System.out.print("Underflow") ;
+        node ptr = top;
+        top = ptr.link;
+        size-- ;
+        return ptr.getdata();
+    }    
+    
+   
+    public void display()
+    {
+        System.out.print("\nStack = ");
+        if (size == 0) 
+        {
+            System.out.print("Empty\n");
+            return ;
+        }
+        node ptr = top;
+        while (ptr != null)
+        {
+            System.out.print(ptr.getdata()+" ");
+            ptr = ptr.link;
+        }
+        System.out.println();        
+    }
+}
+ 
+
+public class linkedstack
+{    
+    public static void main(String args[])
+    {
+        Scanner s = new Scanner(System.in);   
+        
+        links ls = new links();          
+         System.out.println("Linked Stack Test\n");  
+        char ch;     
+        do 
+        {
+            System.out.println("\nLinked Stack Operations");
+            System.out.println("1. push");
+            System.out.println("2. pop");
+            System.out.println("3. check empty");
+            System.out.println("4. size");
+	    System.out.println("Enter your choice");            
+            int choice = s.nextInt();
+	   
+            switch (choice) 
+            {
+            case 1 :
+                System.out.println("Enter integer element to push");
+                ls.push( s.nextInt() ); 
+                break;                         
+            case 2 : 
+                
+                    System.out.println("Popped Element = "+ ls.pop());
+                     break;                         
+                                   
+            case 3 : 
+                System.out.println("Empty status = "+ ls.isempty());
+                break;                
+            case 4 : 
+                System.out.println("Size = "+ ls.getsize()); 
+                break;                
+            case 5 : 
+                System.out.println("Stack = "); 
+                ls.display();
+                break;                        
+            default : 
+                System.out.println("Wrong Entry \n ");
+                break;
+            }           
+             
+            ls.display();            
+            System.out.println("\nDo you want to continue (Type y or n) \n");
+            ch = s.next().charAt(0);       
+ 
+        } while (ch == 'Y'|| ch == 'y');                 
+    }
+}
+
+
+
+
+
+
+
+
+//DOUBLYLIST
+import java.util.*;
+class Link
+{
+	public int data;
+	public Link next;
+	public Link previous;
+	Link(int id)
+	{
+		data=id;
+	}
+	void display()
+	{
+		System.out.println(data);
+	}
+}
+class Linklist
+{
+	int size;
+	Link first,last;
+	Linklist()
+	{
+		first=null;
+		last=null;
+		size=0;
+	}
+	int insert_first(int id)
+	{
+		Link tmp=new Link(id);
+		if(first==null && last==null)
+		{
+			first=tmp;
+			last=tmp;
+		}
+		else{
+			first.previous=tmp;
+			tmp.next=first;
+			first=tmp;}
+			size++;			
+			return 0;
+	}
+	boolean insert_after(int id, int pos)
+	{
+		Link current=first;
+		Link tmp=new Link(id);
+		for(int i=1;i<pos-1;i++)
+		{
+			current=current.next;
+		
+		if(current==null)
+			first=tmp;
+			last=tmp;}
+		
+			tmp.next=current.next;
+			current.next.previous=tmp;
+		tmp.previous=current;
+		current.next=tmp;
+		size++;
+		return true;
+	}
+	int insert_last(int id)
+	{
+		Link tmp=new Link(id);
+		Link current=first;
+		if(current==null)
+			first=tmp;
+			last=tmp;
+		while(current.next!=null)
+		{
+			current=current.next;
+		}
+		current.next=tmp;
+		tmp.previous=last;
+		last=tmp;
+		size++;
+		return 0;
+	}
+	void delete_first()
+	{
+		Link temp=first;
+		if(first.next==null)
+			last=null;
+		else
+			first.next.previous=null;
+			first=first.next;
+		size--;
+	}
+	int delete_after(int pos)
+	{
+		
+		Link current=first;
+		for(int i=1;i<pos;i++)
+		{
+			current=current.next;
+			if(current==null)
+				return 0;
+		}
+		if(current==first)
+			first=current.next;
+		else
+			current.previous.next=current.next;
+		if(current==last)
+			last=current.previous;
+		else{
+			current.next.previous=current.previous;
+			return 0;}
+		size--;
+		return 0;
+			
+	}
+	void delete_last()
+	{
+		Link temp=last;
+		if(first.next==null)
+			first=null;
+		else
+			last.previous.next=null;
+			last=last.previous;
+	}	
+	void display()
+	{
+		System.out.println("Lists in decending  order:");
+		Link current=first;
+		while(current!=null)
+		{
+			current.display();
+			current=current.next;
+		}
+		
+		/*System.out.println("Lists in ascending order:");
+		 current=last;
+		while(current!=null)
+		{
+			current.display();
+			current=current.previous;
+		}*/
+		
+	}
+}
+class Doubly
+{
+	public static void main(String args[])
+	{
+		Linklist li=new Linklist();
+		Scanner s=new Scanner(System.in);
+		int ch=0;
+		System.out.println("Enter number of nodes");
+		int l=s.nextInt();
+		while(ch!=10)
+		{
+			System.out.println("1.insert First \n 2.insert After \n 3.Insert Last \n 4.Delete First \n5.Delete After\n 6.Delete Last\n 7.display");
+			System.out.println("Enter your choice");
+			ch=s.nextInt();
+			switch(ch)
+			{ 
+				case 1:System.out.println("Enter the number to insert");
+					li.insert_first(s.nextInt());
+					break;
+				case 2:System.out.println("Enter the element:");
+					int n=s.nextInt();
+					System.out.println("Enter the position");
+					int pos=s.nextInt();
+					li.insert_after(n,pos);
+					break;
+				case 3:System.out.println("Enter the element:");
+					 n=s.nextInt();
+					li.insert_last(n);
+					break;
+				case 4:
+					li.delete_first();
+					break;
+				case 5:System.out.println("Enter the position");
+					pos=s.nextInt();
+					li.delete_after(pos);
+					break;
+				case 6:
+					li.delete_last();
+					break;
+				case 7:li.display();
+					break;
+				
+				default:
+					System.out.println("Invalid choice");
+			}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+Enter the no.of terminals :
+4
+
+Enter the terminals :
+i
++
+*
+$
+
+Enter the table values :
+Enter the value for i i:e
+Enter the value for i +:>
+Enter the value for i *:>
+Enter the value for i $:>
+Enter the value for + i:<
+Enter the value for + +:>
+Enter the value for + *:<
+Enter the value for + $:>
+Enter the value for * i:<
+Enter the value for * +:>
+Enter the value for * *:>
+Enter the value for * $:>
+Enter the value for $ i:<
+Enter the value for $ +:<
+Enter the value for $ *:<
+Enter the value for $ $:accept
+
+**** OPERATOR PRECEDENCE TABLE ****
+	i	+	*	$
+
+i	e	>	>	>
++	<	>	<	>
+*	<	>	>	>
+$	<	<	<	a
+Enter the input string:$i+i*i
+
+STACK			INPUT STRING			ACTION
+
+$			$i+i*i			String is accepted
+cs1433@cea-desktop:~$ 
+

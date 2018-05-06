@@ -1,0 +1,9 @@
+int x
+int h
+char c
+float y
+if x<y
+const j
+printf
+charac
+
